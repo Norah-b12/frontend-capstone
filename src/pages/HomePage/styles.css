@@ -1,0 +1,68 @@
+.home-container {
+  font-family: 'Arial', sans-serif;
+  color: #2C3E50;
+}
+
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: #F0F4F8;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  color: #1C2B3A;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.hero button {
+  background-color: #4169E1;
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.hero button:hover {
+  background-color: #2749C1;
+  transform: scale(1.05);
+}
+
+.highlights {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 60px 20px;
+}
+
+.highlight-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.highlight-card h3 {
+  margin-bottom: 12px;
+  color: #1C2B3A;
+}
+
+.footer {
+  text-align: center;
+  padding: 25px;
+  background: #2C3E50;
+  color: #fff;
+}
+
