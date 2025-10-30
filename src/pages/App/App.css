@@ -23,3 +23,8 @@
 .nav-links a:hover {
   color: #f0c330;
 }
+.logo {
+  width: 200px; 
+  height: auto; 
+  display: block;
+}

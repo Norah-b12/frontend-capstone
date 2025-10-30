@@ -2,7 +2,7 @@ import { NavLink, Routes, Route } from "react-router-dom";
 import HomePage from "../HomePage";
 import EventsPage from "../EventPage";
 import "./App.css";
-
+import EventFormPage from "../EventFormPage";
 export default function App() {
   return (
     <div className="app-container">
@@ -17,11 +17,14 @@ export default function App() {
           </NavLink>
         </div>
       </nav>
-
       <main className="main-content">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/new" element={<EventFormPage />} />
+          <Route path="/events/:id/edit" element={<EventFormPage />} />
+          <Route path="/events/new" element={<EventFormPage />} />
+          <Route path="/events/:id/edit" element={<EventFormPage />} />   
         </Routes>
       </main>
     </div>

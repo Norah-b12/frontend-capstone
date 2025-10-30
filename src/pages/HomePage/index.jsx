@@ -7,7 +7,7 @@ export default function HomePage() {
 
   return (
     <div className="home-container">
-    
+
       <section className="hero">
         <h1>Discover Events from All Saudi Universities</h1>
         <p>

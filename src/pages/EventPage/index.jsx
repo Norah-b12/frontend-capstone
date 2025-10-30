@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { indexEvents as listEvents, listUniversities } from "../../utilities/event-api";
+import { indexEvents as listEvents, listUniversities,deleteEvent } from "../../utilities/event-api";
 import "./style.css";
+import { Link } from "react-router-dom";
 export default function EventPage() {
     const [events, setEvents] = useState([]);
     const [universities, setUniversities] = useState([]);
@@ -17,7 +18,7 @@ export default function EventPage() {
             setEvents(data);
         } catch (e) { setErr(e.message); }
         finally { setLoading(false); }
-    }   
+    }
 
     useEffect(() => { (async () => setUniversities(await listUniversities()))(); }, []);
     useEffect(() => { load(); }, [universityId]);
@@ -28,7 +29,11 @@ export default function EventPage() {
     }
 
     return (
+        
         <section className="container">
+             <div className="toolbar">
+                <Link to="/events/new" className="create-btn">+ Create Event</Link>
+            </div>
             <h1>Events</h1>
 
             <form onSubmit={onSearch} className="form">
@@ -59,9 +64,26 @@ export default function EventPage() {
                                 <p className="description">{ev.description || "No description"}</p>
                                 <p><b>Date:</b> {ev.date}{ev.time ? ` — ${ev.time}` : ""}</p>
                                 <p><b>Location:</b> {ev.location || "—"}</p>
-                                <button className="register-btn">Register</button>
+                                <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                                    <a href={`/events/${ev.id}/edit`}>Edit</a>
+                                    <button
+                                        onClick={async () => {
+                                            if (!confirm("Delete this event?")) return;
+                                            try {
+                                                await deleteEvent(ev.id);
+                                                await load();
+                                            } catch (e) {
+                                                alert("Failed to delete");
+                                            }
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+
                             </article>
                         ))}
+
                     </div>
             }
         </section>
