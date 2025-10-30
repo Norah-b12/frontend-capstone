@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams,Link } from "react-router-dom";
-import { listUniversities, showEvent, createEvent, updateEvent } from "../../utilities/event-api";
+import { 
+  indexEvents as listEvents, 
+  listUniversities, 
+  deleteEvent, 
+  listFavorites, 
+  addFavorite, 
+  removeFavoriteByEvent 
+} from "../../utilities/event-api";
 export default function EventFormPage() {
     const { id } = useParams(); 
     const nav = useNavigate();

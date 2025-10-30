@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { indexEvents as listEvents, listUniversities,deleteEvent } from "../../utilities/event-api";
+import {
+    indexEvents as listEvents,
+    listUniversities,
+    deleteEvent,
+    listFavorites,
+    addFavorite,
+    removeFavoriteByEvent
+} from "../../utilities/event-api";
+
 import "./style.css";
 import { Link } from "react-router-dom";
 export default function EventPage() {
@@ -9,6 +17,9 @@ export default function EventPage() {
     const [q, setQ] = useState("");
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
+    const [favorites, setFavorites] = useState([]);
+    const favoriteEventIds = new Set(favorites.map(f => f.event));
+
 
     async function load() {
         setLoading(true);
@@ -27,11 +38,44 @@ export default function EventPage() {
         e.preventDefault();
         load();
     }
+    async function loadFavorites() {
+        try {
+            const data = await listFavorites();
+            setFavorites(data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    useEffect(() => {
+        loadFavorites();
+    }, []);
+
+
+
+    async function toggleFavorite(eventId) {
+        try {
+            const isFav = favorites.some(f => f.event === eventId);
+
+            if (isFav) {
+                await removeFavoriteByEvent(eventId);
+            } else {
+                await addFavorite(eventId);
+            }
+
+            const updatedFavorites = await listFavorites();
+            setFavorites(updatedFavorites);
+        } catch (e) {
+            console.error(e);
+            alert("Failed to toggle favorite");
+        }
+    }
+
 
     return (
-        
+
         <section className="container">
-             <div className="toolbar">
+            <div className="toolbar">
                 <Link to="/events/new" className="create-btn">+ Create Event</Link>
             </div>
             <h1>Events</h1>
@@ -79,6 +123,16 @@ export default function EventPage() {
                                     >
                                         Delete
                                     </button>
+                                    <button
+                                        type="button"
+                                        className={`favorite-btn ${favoriteEventIds.has(ev.id) ? "active" : ""}`}
+                                        onClick={async () => await toggleFavorite(ev.id)}
+                                    >
+                                        <i className={`fa${favoriteEventIds.has(ev.id) ? "s" : "r"} fa-star`}></i>
+                                    </button>
+
+
+
                                 </div>
 
                             </article>
@@ -89,3 +143,4 @@ export default function EventPage() {
         </section>
     );
 }
+

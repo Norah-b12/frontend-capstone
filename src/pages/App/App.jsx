@@ -3,6 +3,8 @@ import HomePage from "../HomePage";
 import EventsPage from "../EventPage";
 import "./App.css";
 import EventFormPage from "../EventFormPage";
+import FavoritesPage from "../FavoritesPage";
+
 export default function App() {
   return (
     <div className="app-container">
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="/events/:id/edit" element={<EventFormPage />} />
           <Route path="/events/new" element={<EventFormPage />} />
           <Route path="/events/:id/edit" element={<EventFormPage />} />   
+          <Route path="/favorites" element={<FavoritesPage />} />
+
         </Routes>
       </main>
     </div>

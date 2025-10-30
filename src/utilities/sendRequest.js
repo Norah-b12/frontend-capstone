@@ -5,7 +5,15 @@ export default async function sendRequest(path, method = "GET", body) {
     const token = localStorage.getItem("access");
     if (token) options.headers.Authorization = `Bearer ${token}`;
     if (body) options.body = JSON.stringify(body);
+   
     const res = await fetch(`${API}${path}`, options);
-    if (!res.ok) throw await res.json().catch(() => new Error("Request failed"));
-    return res.json();
+
+if (!res.ok) {
+    throw await res.json().catch(() => new Error("Request failed"));
+}
+
+if (res.status === 204) return null;
+
+return res.json();
+
 }
