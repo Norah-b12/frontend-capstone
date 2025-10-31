@@ -7,10 +7,15 @@ import {
     addFavorite,
     removeFavoriteByEvent
 } from "../../utilities/event-api";
-
 import "./style.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+
 export default function EventPage() {
+    
+    const [searchParams] = useSearchParams();
+    const universityIdFromUrl = searchParams.get("university") || "";
+
     const [events, setEvents] = useState([]);
     const [universities, setUniversities] = useState([]);
     const [universityId, setUniversityId] = useState("");
@@ -25,11 +30,12 @@ export default function EventPage() {
         setLoading(true);
         setErr("");
         try {
-            const data = await listEvents({ universityId: universityId || undefined, q: q || undefined });
+            const data = await listEvents({ universityId: universityIdFromUrl || undefined, q: q || undefined });
             setEvents(data);
         } catch (e) { setErr(e.message); }
         finally { setLoading(false); }
     }
+
 
     useEffect(() => { (async () => setUniversities(await listUniversities()))(); }, []);
     useEffect(() => { load(); }, [universityId]);
@@ -125,10 +131,11 @@ export default function EventPage() {
                                     </button>
                                     <button
                                         type="button"
-                                        className={`favorite-btn ${favoriteEventIds.has(ev.id) ? "active" : ""}`}
+                                        className={`favorite-btn-modern ${favoriteEventIds.has(ev.id) ? "active" : ""}`}
                                         onClick={async () => await toggleFavorite(ev.id)}
+                                        title={favoriteEventIds.has(ev.id) ? "Remove from Favorites" : "Add to Favorites"}
                                     >
-                                        <i className={`fa${favoriteEventIds.has(ev.id) ? "s" : "r"} fa-star`}></i>
+                                        <i className={`fa${favoriteEventIds.has(ev.id) ? "s" : "r"} fa-heart`}></i>
                                     </button>
 
 

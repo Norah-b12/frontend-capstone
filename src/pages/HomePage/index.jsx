@@ -4,7 +4,6 @@ import "./styles.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
-
   return (
     <div className="home-container">
 

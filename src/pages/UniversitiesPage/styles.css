@@ -1,0 +1,23 @@
+.u-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.u-card-head {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.u-card-title {
+    flex-grow: 1;
+}
+
+.u-follow {
+    white-space: nowrap;
+    padding: 8px 12px;
+}

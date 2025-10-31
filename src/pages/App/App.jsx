@@ -4,7 +4,7 @@ import EventsPage from "../EventPage";
 import "./App.css";
 import EventFormPage from "../EventFormPage";
 import FavoritesPage from "../FavoritesPage";
-
+import UniversitiesPage from "../UniversitiesPage";
 export default function App() {
   return (
     <div className="app-container">
@@ -17,6 +17,9 @@ export default function App() {
           <NavLink to="/events" className={({ isActive }) => isActive ? "active" : ""}>
             Events
           </NavLink>
+          <NavLink to="/universities" className={({ isActive }) => isActive ? "active" : ""}>
+            Universities
+          </NavLink>
         </div>
       </nav>
       <main className="main-content">
@@ -26,8 +29,8 @@ export default function App() {
           <Route path="/events/new" element={<EventFormPage />} />
           <Route path="/events/:id/edit" element={<EventFormPage />} />
           <Route path="/events/new" element={<EventFormPage />} />
-          <Route path="/events/:id/edit" element={<EventFormPage />} />   
           <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/universities" element={<UniversitiesPage />} />
 
         </Routes>
       </main>

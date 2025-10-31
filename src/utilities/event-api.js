@@ -21,3 +21,4 @@ export const removeFavoriteById = (favId) =>sendRequest(`/favorites/${favId}/`, 
 export const removeFavoriteByEvent = (eventId) =>sendRequest(`/favorites/by-event/${eventId}/`, "DELETE");
 
 
+
