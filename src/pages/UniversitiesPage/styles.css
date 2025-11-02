@@ -1,23 +1,164 @@
-.u-logo {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 5px;
+.u-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+
+.u-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.u-title {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.u-subtitle {
+    font-size: 1rem;
+    color: #555;
+}
+
+.u-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.u-search {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.u-search:focus {
+    border-color: #007bff;
+}
+
+.u-cta {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.u-cta:hover {
+    background-color: #0056b3;
+}
+
+
+.u-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.u-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.u-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
 .u-card-head {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.u-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    padding: 6px;
 }
 
 .u-card-title {
     flex-grow: 1;
 }
 
+.u-name {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.u-city {
+    font-size: 0.9rem;
+    color: #777;
+}
+
 .u-follow {
-    white-space: nowrap;
-    padding: 8px 12px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: 2px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.u-follow:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.u-follow.is-followed {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.u-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+.u-view-events {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.u-view-events:hover {
+    background-color: #1e7e34;
+}
+
+.u-empty, .u-state {
+    text-align: center;
+    font-size: 1rem;
+    color: #555;
+}
+
+.u-error {
+    color: crimson;
 }
