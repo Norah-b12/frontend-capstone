@@ -1,4 +1,4 @@
-import { NavLink, Routes, Route } from "react-router-dom";
+import { NavLink, Routes, Route, useNavigate, Link } from "react-router-dom";
 import HomePage from "../HomePage";
 import EventsPage from "../EventPage";
 import "./App.css";
@@ -7,10 +7,34 @@ import FavoritesPage from "../FavoritesPage";
 import UniversitiesPage from "../UniversitiesPage";
 import SignupPage from "../SignupPage";
 import React, { useState, useEffect } from "react";
-
+import LoginPage from "../LoginPage";
+import * as usersAPI from "../../utilities/users-api";
 export default function App() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
+useEffect(() => {
+const saved = usersAPI.getStoredUser();
+if (saved) {
+setUser(saved);
+} else if (localStorage.getItem("access")) {
+usersAPI.getMe()
+.then((me) => {
+localStorage.setItem("user", JSON.stringify(me));
+setUser(me);
+})
+.catch(() => {
+usersAPI.logout();
+setUser(null);
+});
+}
+}, []);
+  function handleLogout(e) {
+    e?.preventDefault?.();
+    usersAPI.logout();
+    setUser(null);
+    navigate("/");
+  }
   return (
     <div className="app-container">
       <nav className="navbar">
@@ -25,7 +49,14 @@ export default function App() {
           <NavLink to="/universities" className={({ isActive }) => isActive ? "active" : ""}>
             Universities
           </NavLink>
-          <NavLink to="/signup">Sign Up</NavLink>
+          {!user ? (
+            <>
+              <li><Link to="/signup">Sign Up</Link></li>
+              <li><Link to="/login">Log In</Link></li>
+            </>
+          ) : (
+            <button onClick={handleLogout} className="logout-btn">Log Out</button>
+          )}
 
         </div>
       </nav>
@@ -39,6 +70,7 @@ export default function App() {
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/universities" element={<UniversitiesPage />} />
           <Route path="/signup" element={<SignupPage setUser={setUser} />} />
+          <Route path="/login" element={<LoginPage setUser={setUser} />} />
 
         </Routes>
       </main>
