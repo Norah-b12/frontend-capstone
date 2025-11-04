@@ -3,6 +3,7 @@ import {
   listFavorites,
   showEvent 
 } from "../../utilities/event-api";
+import "./styles.css";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState([]);

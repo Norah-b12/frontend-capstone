@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as usersAPI from "../../utilities/users-api";
+import "./styles.css";
 
 export default function LoginPage({ setUser }) {
     const [formData, setFormData] = useState({ username: "", password: "" });

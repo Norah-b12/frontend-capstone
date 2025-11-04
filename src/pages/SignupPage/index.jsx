@@ -1,6 +1,7 @@
 import { useState } from "react";
 import * as usersAPI from "../../utilities/users-api";
 import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 export default function SignupPage({ setUser }) {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -26,12 +27,37 @@ export default function SignupPage({ setUser }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="username" value={formData.username} onChange={handleChange} required />
-      <input name="email" type="email" value={formData.email} onChange={handleChange} required />
-      <input name="password" type="password" value={formData.password} onChange={handleChange} required />
-      <button type="submit">Sign Up</button>
-      {error && <p>{error}</p>}
-    </form>
+    <div className="signup-page">
+    <div className="signup-card">
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSubmit}>
+   <input
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Sign Up</button>
+          {error && <p>{error}</p>}
+      </form>
+    </div>
+  </div>
   );
 }

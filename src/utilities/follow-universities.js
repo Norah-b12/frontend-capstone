@@ -1,10 +1,21 @@
 const KEY = "followedUniversityIds";
 
+
+function getUserId() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user?.id || "anonymous";
+}
 function load() {
-    try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+    try { 
+    const userId = getUserId();
+    const userKey = `${KEY}_${userId}`;
+    return JSON.parse(localStorage.getItem(userKey)) || []; }
     catch { return []; }
 }
-function save(ids) { localStorage.setItem(KEY, JSON.stringify(ids)); }
+function save(ids) { 
+    const userId = getUserId();
+    const userKey = `${KEY}_${userId}`;
+    localStorage.setItem(userKey, JSON.stringify(ids)); }
 
 export function getFollowedUniversityIds() { return load(); }
 export function isFollowed(id) { return load().includes(id); }
@@ -19,5 +30,7 @@ export function toggleFollow(id) {
 }
 
 export function clearFollows() {
-    localStorage.removeItem(KEY);
+    const userId = getUserId();
+    const userKey = `${KEY}_${userId}`;
+    localStorage.removeItem(userKey);
 }

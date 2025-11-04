@@ -1,4 +1,4 @@
-.signup-page {
+.auth-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,7 +7,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.signup-card {
+.auth-card {
   background: #fff;
   padding: 30px 40px;
   border-radius: 12px;
@@ -17,19 +17,19 @@
   text-align: center;
 }
 
-.signup-card h2 {
+.auth-card h1 {
   margin-bottom: 20px;
   font-size: 1.8rem;
   color: #333;
 }
 
-.signup-card form {
+.auth-card form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.signup-card input {
+.auth-card input {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -37,12 +37,12 @@
   transition: border-color 0.2s;
 }
 
-.signup-card input:focus {
+.auth-card input:focus {
   border-color: #4f46e5;
   outline: none;
 }
 
-.signup-card button {
+.auth-card button {
   background-color: #4f46e5;
   color: white;
   border: none;
@@ -53,11 +53,11 @@
   transition: background-color 0.2s;
 }
 
-.signup-card button:hover {
+.auth-card button:hover {
   background-color: #4338ca;
 }
 
-.signup-card p {
+.error {
   color: #e74c3c;
   margin-top: 10px;
   font-size: 0.9rem;

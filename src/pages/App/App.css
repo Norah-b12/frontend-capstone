@@ -1,25 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+  line-height: 1.6;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0a1a44;
+  background-color: #4f46e5;
+  padding: 1rem 2rem;
   color: white;
-  padding: 15px 40px;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.nav-logo {
-  font-size: 1.4rem;
+.navbar .logo {
+  font-size: 1.5rem;
   font-weight: 700;
+  letter-spacing: 1px;
 }
 
-.nav-links a {
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.nav-links a,
+.nav-links li {
   color: white;
-  margin-left: 25px;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  transition: 0.2s ease;
 }
 
-.nav-links a:hover {
-  color: #f0c330;
+.nav-links a:hover,
+.nav-links li:hover {
+  background-color: #4338ca;
+}
+
+.nav-links .active {
+  background-color: #818cf8;
+  color: white;
+}
+
+.logout-btn {
+  background-color: #ef4444;
+  border: none;
+  color: white;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+  }
 }

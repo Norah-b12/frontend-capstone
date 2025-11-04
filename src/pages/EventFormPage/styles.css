@@ -1,0 +1,120 @@
+.event-form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc, #e0e7ff);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.event-form-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #4f46e5;
+    text-align: center;
+}
+
+.event-form-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.event-form-input,
+.event-form-textarea,
+.event-form-date,
+.event-form-time,
+.event-form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.event-form-input:focus,
+.event-form-textarea:focus,
+.event-form-date:focus,
+.event-form-time:focus,
+.event-form-select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.event-form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.event-form-datetime {
+    display: flex;
+    gap: 1rem;
+}
+
+.event-form-date,
+.event-form-time {
+    flex: 1;
+}
+
+.event-form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.event-form-submit,
+.event-form-cancel {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-size: 1rem;
+}
+
+.event-form-submit {
+    background: #4f46e5;
+    color: white;
+}
+
+.event-form-submit:hover:not(:disabled) {
+    background: #4338ca;
+}
+
+.event-form-cancel {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.event-form-cancel:hover {
+    background: #d1d5db;
+}
+
+@media (max-width: 640px) {
+    .event-form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .event-form-datetime {
+        flex-direction: column;
+    }
+    
+    .event-form-buttons {
+        flex-direction: column;
+    }
+}

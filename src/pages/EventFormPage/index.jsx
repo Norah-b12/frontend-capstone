@@ -1,5 +1,6 @@
 import { useEffect, useState,useRef } from "react";
 import { useNavigate, useParams,Link } from "react-router-dom";
+import "./styles.css";
 
 import { 
   indexEvents as listEvents, 
