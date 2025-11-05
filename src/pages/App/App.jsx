@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import LoginPage from "../LoginPage";
 import * as usersAPI from "../../utilities/users-api";
 import ProfilePage from "../ProfilePage";
+import { Navigate } from "react-router-dom";
 
 function OrganizerRoute({ me, children }) {
   if (!me) return <Navigate to="/login" replace />;
@@ -108,6 +109,7 @@ export default function App() {
           <Route path="/signup" element={<SignupPage setUser={setMe} />} />
           <Route path="/login" element={<LoginPage setUser={setMe} />} />
           <Route path="/profile" element={<ProfilePage me={me} setUser={setMe} />} />
+          
         </Routes>
       </main>
     </div>

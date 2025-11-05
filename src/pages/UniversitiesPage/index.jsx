@@ -6,20 +6,25 @@ import {
     toggleFollow,
 } from "../../utilities/follow-universities";
 import "./styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import PNULogo from "../../images/PNU_logo-removebg-preview.png";
 import AlYamamahLogo from "../../images/al yamamah.png";
 import ImamLogo from "../../images/imam.png";
 import KingSaudLogo from "../../images/king saud uni.png";
 import PrinceSultanLogo from "../../images/prince sultan.png";
+import * as usersAPI from "../../utilities/users-api";
 
 export default function UniversitiesPage() {
+    const [me, setMe] = useState(null);
     const [universities, setUniversities] = useState([]);
     const [q, setQ] = useState("");
     const [followed, setFollowed] = useState(getFollowedUniversityIds());
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
+    const navigate = useNavigate();
+    const [showFollowPrompt, setShowFollowPrompt] = useState(false);
+
     const universityImages = {
         1: PNULogo,
         5: AlYamamahLogo,
@@ -42,11 +47,22 @@ export default function UniversitiesPage() {
             }
         })();
     }, []);
+    useEffect(() => {
+        usersAPI
+            .getMe()
+            .then((user) => setMe(user))
+            .catch(() => setMe(null));
+    }, []);
 
-    function onToggle(id) {
+    function handleFollow(id) {
+        if (!me) {
+            setShowFollowPrompt(true);
+            return;
+        }
         const ids = toggleFollow(id);
         setFollowed([...ids]);
     }
+
 
     const filtered = useMemo(() => {
         const term = q.trim().toLowerCase();
@@ -102,10 +118,11 @@ export default function UniversitiesPage() {
                                 </div>
                                 <button
                                     className={`u-follow ${isFollowed(u.id) ? "is-followed" : ""}`}
-                                    onClick={() => onToggle(u.id)}
+                                    onClick={() => handleFollow(u.id)}
                                 >
                                     {isFollowed(u.id) ? "Following" : "Follow"}
                                 </button>
+
                             </div>
 
                             <div className="u-card-actions">
@@ -115,9 +132,41 @@ export default function UniversitiesPage() {
                             </div>
                         </article>
                     ))}
+
+
                 </div>
+
             )}
+            {showFollowPrompt && (
+                <div className="confirm-overlay">
+                    <div className="confirm-card">
+                        <h3>Follow University</h3>
+                        <p>To follow this university, please log in or sign up.</p>
+                        <div className="confirm-buttons">
+                            <button
+                                className="btn-primary"
+                                onClick={() => navigate("/login")}
+                            >
+                                Log me in
+                            </button>
+                            <button
+                                className="btn-primary"
+                                onClick={() => navigate("/signup")}
+                            >
+                                Sign me up
+                            </button>
+                            <button
+                                className="btn-cancel"
+                                onClick={() => setShowFollowPrompt(false)}
+                            >
+                                cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>)}
         </section>
+
     );
 }
+
 

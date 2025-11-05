@@ -8,13 +8,14 @@ import {
     removeFavoriteByEvent
 } from "../../utilities/event-api";
 import "./style.css";
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate,Link, useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 export default function EventPage({ me }) {
 
     const [searchParams] = useSearchParams();
     const universityIdFromUrl = searchParams.get("university") || "";
+    const navigate = useNavigate();
 
     const [events, setEvents] = useState([]);
     const [universities, setUniversities] = useState([]);
@@ -24,11 +25,12 @@ export default function EventPage({ me }) {
     const [errMsg, setErrMsg] = useState("");
     const [favorites, setFavorites] = useState([]);
     const [allFavs, setAllFavs] = useState([]);
-
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [eventToDelete, setEventToDelete] = useState(null);
     const favoriteEventIds = new Set(favorites.map(f => f.event));
-
     const isOrganizer = me?.profile?.role === "organizer";
     const myUniId = me?.profile?.university ?? null;
+    const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
     function getTimeString(timeStr) {
         if (!timeStr) return "";
@@ -176,7 +178,80 @@ export default function EventPage({ me }) {
     return (
         <section className="container">
             <div className="page-header">
+              {showLoginPrompt && (
+  <div className="confirm-overlay">
+    <div className="confirm-card">
+      <h3>Login Required</h3>
+      <p>You need to log in or sign up to access all features, including saving favorites.</p>
+      <div className="confirm-buttons">
+        <button
+          className="btn-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/login"); 
+          }}
+        >
+          Log In
+        </button>
+        <button
+          className="btn-secondary"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/signup"); 
+          }}
+        >
+          Sign Up
+        </button>
+        <button
+          className="btn-tertiary"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowLoginPrompt(false); 
+          }}
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
                 <h1>Events</h1>
+                {showDeleteConfirm && eventToDelete && (
+                    <div className="confirm-overlay">
+                        <div className="confirm-card">
+                            <h3>Confirm Deletion</h3>
+                            <p>Are you sure you want to delete the event "{eventToDelete.title}"? This action cannot be undone.</p>
+                            <div className="confirm-buttons">
+                                <button
+                                    className="btn-danger"
+                                    onClick={async () => {
+                                        try {
+                                            await deleteEvent(eventToDelete.id);
+                                            fetchEvents();
+                                        } catch {
+                                            alert("Failed to delete the event");
+                                        } finally {
+                                            setShowDeleteConfirm(false);
+                                            setEventToDelete(null);
+                                        }
+                                    }}
+                                >
+                                    Yes, Delete
+                                </button>
+                                
+                                
+
+                                <button
+                                    className="btn-secondary"
+                                    onClick={() => { setShowDeleteConfirm(false); setEventToDelete(null); }}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
 
@@ -224,6 +299,7 @@ export default function EventPage({ me }) {
                         <h3>No events found</h3>
                         <p>Try adjusting your search or filters</p>
                     </div>
+
                 )}
                     {events.map(ev => {
                         const canEdit = isOrganizer && myUniId === ev.university;
@@ -234,7 +310,10 @@ export default function EventPage({ me }) {
                         const formattedTime = getTimeString(ev.time);
                         const favCount = favoriteCount(ev.id);
                         const mostLiked = isPopular(ev.id);
-
+                        const getUniversityName = (uniId) => {
+                            const uni = universities.find(u => u.id === uniId);
+                            return uni ? uni.name : "Unknown University";
+                        }
                         return (
                             <article key={ev.id} className="card">
                                 <div className="card-header">
@@ -261,7 +340,7 @@ export default function EventPage({ me }) {
 
                                     <div className="event-details">
                                         <div className="detail-item">
-                                            <span>{ev.location || "Location TBD"}</span>
+                                            <span>{ev.location || "Location TBD"} - {getUniversityName(ev.university)}</span>
                                         </div>
                                         <div className="detail-item">
                                             <span>{ev.date}</span>
@@ -283,14 +362,24 @@ export default function EventPage({ me }) {
                                             {canEdit && (
                                                 <div className="action-buttons">
                                                     <Link to={`/events/${ev.id}/edit`} className="edit-btn">Edit</Link>
-                                                    <button onClick={async () => {
-                                                        if (!confirm("Delete this event?")) return;
-                                                        try { await deleteEvent(ev.id); fetchEvents(); } catch (e) { alert("Failed to delete") }
-                                                    }} className="delete-btn">Delete</button>
+                                                    <button
+                                                        onClick={() => { setShowDeleteConfirm(true); setEventToDelete(ev); }}
+                                                        className="delete-btn"
+                                                    >
+                                                        Delete
+                                                    </button>
+
                                                 </div>
                                             )}
 
-                                            <button type="button" className={`favorite-btn ${isFav ? "active" : ""}`} onClick={() => toggleFavorite(ev.id)} title={isFav ? "Remove from Favorites" : "Add to Favorites"}>
+                                            <button type="button" className={`favorite-btn ${isFav ? "active" : ""}`} onClick={() => {
+                                                if (!me) {
+                                                    setShowLoginPrompt(true);
+                                                } else {
+                                                    toggleFavorite(ev.id);
+                                                }
+                                            }}
+                                                title={isFav ? "Remove from Favorites" : "Add to Favorites"}>
                                                 {isFav ? "❤️" : "🤍"}
                                             </button>
                                         </div>

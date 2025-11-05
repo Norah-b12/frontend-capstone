@@ -7,7 +7,7 @@ export default function SignupPage({ setUser }) {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const [createProfile, setCreateProfile] = useState(false);
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
@@ -28,10 +28,10 @@ export default function SignupPage({ setUser }) {
 
   return (
     <div className="signup-page">
-    <div className="signup-card">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-   <input
+      <div className="signup-card">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <input
             name="username"
             placeholder="Username"
             value={formData.username}
@@ -54,10 +54,16 @@ export default function SignupPage({ setUser }) {
             onChange={handleChange}
             required
           />
+          <label className="profile-check">
+            <input type="checkbox" checked={true} readOnly />
+            <span className="checkmark"></span>
+            Create Profile
+          </label>
+
           <button type="submit">Sign Up</button>
           {error && <p>{error}</p>}
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
   );
 }

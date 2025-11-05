@@ -12,6 +12,7 @@ export default function ProfilePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("profile");
     const [isEditing, setIsEditing] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     useEffect(() => {
         usersAPI.getMe()
@@ -71,21 +72,25 @@ export default function ProfilePage() {
         setIsEditing(true);
         setMsg("");
     }
-
+    
     function handleCancel() {
         setForm({ username: me.username || "", email: me.email || "" });
         setIsEditing(false);
         setMsg("");
     }
 
+    function handleDeleteClick() {
+        setShowDeleteConfirm(true);
+    }
     async function handleDelete() {
-        if (!window.confirm("Delete your account? This cannot be undone.")) return;
         try {
             await usersAPI.deleteMe();
             usersAPI.logout();
             window.location.assign("/");
         } catch {
             setMsg("Delete failed. Please try again.");
+            setShowDeleteConfirm(false);
+
         }
     }
 
@@ -102,7 +107,6 @@ export default function ProfilePage() {
     return (
         <div className="profile-page">
             <div className="profile-container">
-                {/* Profile Header */}
                 <div className="profile-header">
                     <div className="profile-info">
                         <h1>{me.username}</h1>
@@ -257,7 +261,7 @@ export default function ProfilePage() {
                             <h2>Account Settings</h2>
                             <button 
                                 type="button" 
-                                onClick={handleDelete} 
+                           onClick={() => setShowDeleteConfirm(true)} 
                                 className="btn-danger"
                             >
                                 Delete Account
@@ -267,6 +271,23 @@ export default function ProfilePage() {
                     )}
                 </div>
             </div>
+    
+            {showDeleteConfirm && (
+                <div className="confirm-overlay">
+                    <div className="confirm-card">
+                        <h3>Confirm Deletion</h3>
+                        <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                        <div className="confirm-buttons">
+                            <button className="btn-danger" onClick={handleDelete}>
+                                Yes, Delete
+                            </button>
+                            <button className="btn-secondary" onClick={() => setShowDeleteConfirm(false)}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
